@@ -65,7 +65,8 @@ class YmlKeValueStorageTest extends TestCase
      */
     public function testClear()
     {
-        $this->storage->set('auto', [
+        $this->storage->set('auto',
+            [
             'car' => 'BMW',
             'model' => 'X6',
             'age' => '2 month',
