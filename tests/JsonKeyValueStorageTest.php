@@ -11,7 +11,7 @@ class JsonKeyValueStorageTest extends TestCase
 
     public function __construct()
     {
-        $this->storage =new JsonKeyValueStorage(__DIR__ . '../data/storage.json');
+        $this->storage = new JsonKeyValueStorage(__DIR__ . '../data/storage.json');
     }
 
     public function testSet()
