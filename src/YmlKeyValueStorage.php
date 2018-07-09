@@ -15,6 +15,13 @@ class YmlKeyValueStorage  implements KeyValueStorageInterface
         $this->pathToFile = $pathToFile;
     }
 
+    /**
+     * Use for testing method which set data
+     *method testSet
+     * @param string $key
+     * @param mixed $value
+     * @return void
+     */
     public function set(string  $key, $value): void
     {
         $data = $this->parseYmlInPHP();
@@ -25,6 +32,12 @@ class YmlKeyValueStorage  implements KeyValueStorageInterface
 
     }
 
+    /**
+     * Use for testing method which get data
+     *method testGet
+     * @param string $key
+     * @return mixed
+     */
     public function get(string $key)
     {
         if ($this->has($key)) {
@@ -33,13 +46,23 @@ class YmlKeyValueStorage  implements KeyValueStorageInterface
         return null;
     }
 
+    /**
+     * Use for testing method which has data
+     *method testHas
+     *  @param string $key
+     * @return bool
+     */
     public function has(string  $key): bool
     {
         $this->storage=$this->parseYmlInPHP();
         return isset($this->storage[$key]);
 
     }
-
+    /**Use for testing method which remove data
+     *method testRemove
+     * @param string $key
+     * @return void
+     */
     public function remove(string $key): void
     {
         $content = $this->parseYmlInPHP();
@@ -49,6 +72,10 @@ class YmlKeyValueStorage  implements KeyValueStorageInterface
         }
     }
 
+    /**A  test method that use for completely cleans up the storage
+     * testClear
+     * @return void
+     */
     public function clear(): void
     {
         \file_put_contents($this->pathToFile, '', \LOCK_EX);
