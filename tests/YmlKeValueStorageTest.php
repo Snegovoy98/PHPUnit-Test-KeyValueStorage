@@ -18,7 +18,7 @@ class YmlKeValueStorageTest extends TestCase
 
     public function testSet()
     {
-        $this->storage->clear();
+        $this->clearFile();
         $this->storage->set('email', 'Ivanov77@gmail.com');
         $this->assertEquals('Petrov99@gmail.com', $this->storage->get('email'));
 
@@ -27,7 +27,7 @@ class YmlKeValueStorageTest extends TestCase
 
     public function testGet()
     {
-        $this->storage->clear();
+        $this->clearFile();
         $this->storage->set('name', 'Igor');
         $this->storage->set('date', 'June 28');
         $this->assertEquals('Igar', $this->storage->get('name'));
@@ -39,7 +39,7 @@ class YmlKeValueStorageTest extends TestCase
 
     public function testHas()
     {
-        $this->storage->clear();
+        $this->clearFile();
         $this->storage->set('name', 'Egor');
         $this->storage->set('surname', 'Gogishvili');
         $this->assertEquals(true, $this->storage->has('surname'));
@@ -49,7 +49,7 @@ class YmlKeValueStorageTest extends TestCase
 
     public function testRemove()
     {
-        $this->storage->clear();
+        $this->clearFile();
         $this->storage->set('name', 'Igor');
         $this->storage->remove('name');
         $this->assertEquals(true, $this->storage->get('name'));
@@ -59,6 +59,7 @@ class YmlKeValueStorageTest extends TestCase
 
     public function testClear()
     {
+        $this->clearFile();
         $this->storage->set('auto',
             [
             'car' => 'BMW',
@@ -70,5 +71,9 @@ class YmlKeValueStorageTest extends TestCase
         $this->storage->set('driver', 'Petr');
         $this->storage->clear();
         $this->assertEquals(true, $this->storage->has('auto'));
+    }
+    private function clearFile()
+    {
+        \file_put_contents($this->storage,'');
     }
 }
