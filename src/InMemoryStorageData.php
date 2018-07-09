@@ -18,18 +18,14 @@ class InMemoryStorageData implements KeyValueStorageInterface
     {
        if ($this->has($key)) {
           return $this->storage[$key];
-       } else {
-           return 'key not found';
        }
+       return null;
     }
 
     public function has(string $key): bool
     {
-       if (isset($this->storage[$key])) {
-           return true;
-       } else {
-           return false;
-       }
+      return isset($this->storage[$key]);
+
     }
 
     public function remove(string $key): void
