@@ -17,8 +17,8 @@ class JsonKeyValueStorageTest extends TestCase
     public function testSet()
     {
         $this->storage->clear();
-        $this->storage->set('array', ['https://domain.com']);
-        $this->assertEquals('Petrov99@gmail.com', $this->storage->get('email'));
+        $this->storage->set('array' => ['domain.com', 'web_developer.com.ua', 'php_develop.com']);
+        $this->assertEquals(['domain.com'], $this->storage->get('array'));
 
     }
 
