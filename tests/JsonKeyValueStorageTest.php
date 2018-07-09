@@ -22,7 +22,6 @@ class JsonKeyValueStorageTest extends TestCase
 
     }
 
-
     public function testGet()
     {
         $this->storage->clear();
@@ -33,7 +32,6 @@ class JsonKeyValueStorageTest extends TestCase
 
 
     }
-
 
     public function testHas()
     {
@@ -53,7 +51,6 @@ class JsonKeyValueStorageTest extends TestCase
         $this->assertEquals(true, $this->storage->get('name'));
 
     }
-
 
     public function testClear()
     {
