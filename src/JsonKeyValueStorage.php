@@ -1,9 +1,8 @@
 <?php
 
-namespace App;
+namespace Snegovoy\App;
 
-use App\KeyValueStorageInterface;
-use \SplFixedArray;
+use  Snegovoy\App\KeyValueStorageInterface;
 
 class JsonKeyValueStorage implements KeyValueStorageInterface
 {
@@ -15,7 +14,7 @@ class JsonKeyValueStorage implements KeyValueStorageInterface
         $this->pathToFile = $pathToFile;
     }
 
-    public function set(string $key, $value):void
+    public function set(string $key, $value): void
     {
         $this->storage[$key] = $value;
        $this->writeToFile($this->storage,'r+');
@@ -25,19 +24,14 @@ class JsonKeyValueStorage implements KeyValueStorageInterface
     {
          if ($this->has($key)) {
              return $this->storage[$key];
-         } else {
-             return 'key not found';
          }
+         return null;
     }
 
-    public function has(string $key):bool
+    public function has(string $key): bool
     {
         $this->storage = $this->decodeData();
-       if (isset($this->storage[$key])) {
-            return true;
-       } else {
-            return false;
-       }
+        return isset($this->storage[$key]);
     }
 
     public function remove(string $key):void
@@ -53,7 +47,7 @@ class JsonKeyValueStorage implements KeyValueStorageInterface
         }
     }
 
-    public function clear():void
+    public function clear(): void
     {
         $this->storage=[];
         $fp = fopen($this->pathToFile,'w+');
@@ -66,7 +60,7 @@ class JsonKeyValueStorage implements KeyValueStorageInterface
         return json_encode($array);
     }
 
-    private function writeToFile(array $array, $flag):void
+    private function writeToFile(array $array, $flag): void
     {
         $fp = fopen($this->pathToFile, $flag);
         fwrite($fp, $this->encodeData($array), strlen($this->encodeData($array)));

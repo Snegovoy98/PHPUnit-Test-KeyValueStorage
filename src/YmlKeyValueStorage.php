@@ -1,11 +1,9 @@
 <?php
 
-namespace App;
+namespace Snegovoy\App;
 
-use App\KeyValueStorageInterface;
+use  Snegovoy\App\KeyValueStorageInterface;
 use Symfony\Component\Yaml\Yaml;
-use Symfony\Component\Yaml\Exception\ParseException;
-
 
 class YmlKeyValueStorage  implements KeyValueStorageInterface
 {
@@ -17,7 +15,7 @@ class YmlKeyValueStorage  implements KeyValueStorageInterface
         $this->pathToFile = $pathToFile;
     }
 
-    public function set(string  $key, $value):void
+    public function set(string  $key, $value): void
     {
         $this->storage[$key] = $value;
         $this->writeToFile($this->storage,'r+');
@@ -27,22 +25,18 @@ class YmlKeyValueStorage  implements KeyValueStorageInterface
     {
         if ($this->has($key)) {
             return $this->storage[$key];
-        } else {
-            return 'key not found';
         }
+        return null;
     }
 
     public function has(string  $key):bool
     {
         $this->storage=$this->parseYmlInPHP();
-        if (isset($this->storage[$key])) {
-            return true;
-        } else {
-            return false;
-        }
+        return isset($this->storage[$key]);
+
     }
 
-    public function remove(string $key):void
+    public function remove(string $key): void
     {
         if ($this->has($key)) {
             $content = $this->parseYmlInPHP();
@@ -55,7 +49,7 @@ class YmlKeyValueStorage  implements KeyValueStorageInterface
         }
     }
 
-    public function clear():void
+    public function clear(): void
     {
         $this->storage = [];
         $fp = fopen($this->pathToFile,'w+');
@@ -68,7 +62,7 @@ class YmlKeyValueStorage  implements KeyValueStorageInterface
        return Yaml::dump($array,1);
     }
 
-    private function writeToFile(array $array, $flag):void
+    private function writeToFile(array $array, $flag): void
     {
         $fp = fopen($this->pathToFile, $flag);
         fwrite($fp, $this->dumpInYml($array), strlen($this->dumpInYml($array)));
