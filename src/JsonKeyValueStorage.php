@@ -16,8 +16,11 @@ class JsonKeyValueStorage implements KeyValueStorageInterface
 
     public function set(string $key, $value): void
     {
+        $content = $this->readFromFile();
+        if ($content[$key] != $this->storage[$key]) {
         $this->storage[$key] = $value;
-       $this->writeToFile($this->storage,'r+');
+        $this->writeToFile($this->storage);
+        }
     }
 
     public function get(string $key)
@@ -30,29 +33,22 @@ class JsonKeyValueStorage implements KeyValueStorageInterface
 
     public function has(string $key): bool
     {
-        $this->storage = $this->decodeData();
+        $this->storage = $this->readFromFile();
         return isset($this->storage[$key]);
     }
 
     public function remove(string $key):void
     {
-        if ($this->has($key)) {
-            $content = $this->decodeData();
-            foreach ($content as $data_key => $value) {
-                if ($data_key == $key) {
-                    unset($this->storage[$key]);
-                   $this->writeToFile($this->storage,'w+');
-                }
-            }
+            $content = $this->readFromFile();
+        if (isset($content[$key])) {
+            unset($this->storage[$key]);
+            $this->writeToFile($this->storage);
         }
     }
 
     public function clear(): void
     {
-        $this->storage=[];
-        $fp = fopen($this->pathToFile,'w+');
-        ftruncate($fp, filesize($this->pathToFile));
-        fclose($fp);
+        \file_put_contents($this->pathToFile, '', \LOCK_EX);
     }
 
     private function encodeData(array $array)
@@ -60,27 +56,16 @@ class JsonKeyValueStorage implements KeyValueStorageInterface
         return json_encode($array);
     }
 
-    private function writeToFile(array $array, $flag): void
+    private function writeToFile(array $array): void
     {
-        $fp = fopen($this->pathToFile, $flag);
-        fwrite($fp, $this->encodeData($array), strlen($this->encodeData($array)));
-        fclose($fp);
+        \file_put_contents($this->pathToFile, $array, \LOCK_EX);
     }
 
     private function readFromFile()
     {
-        $fp = fopen($this->pathToFile,'r');
-        if (filesize($this->pathToFile) > 0) {
-        $content = fread($fp, filesize($this->pathToFile));
-        fclose($fp);
-        return $content;
-        } else {
-            return 'file is empty';
-        }
+        $content = \file_get_contents($this->pathToFile);
+        return json_decode($content,true);
+
     }
 
-    private function decodeData()
-    {
-        return json_decode($this->readFromFile(),true);
-    }
 }
