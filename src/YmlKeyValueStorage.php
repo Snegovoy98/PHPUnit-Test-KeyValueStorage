@@ -33,7 +33,7 @@ class YmlKeyValueStorage  implements KeyValueStorageInterface
         return null;
     }
 
-    public function has(string  $key):bool
+    public function has(string  $key): bool
     {
         $this->storage=$this->parseYmlInPHP();
         return isset($this->storage[$key]);
