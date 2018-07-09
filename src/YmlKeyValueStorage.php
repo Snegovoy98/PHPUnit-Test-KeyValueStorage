@@ -17,8 +17,12 @@ class YmlKeyValueStorage  implements KeyValueStorageInterface
 
     public function set(string  $key, $value): void
     {
-        $this->storage[$key] = $value;
-        $this->writeToFile($this->storage,'r+');
+        $data = $this->parseYmlInPHP();
+        if($data[$key] != $this->storage[$key]){
+            $this->storage[$key] = $value;
+            $this->writeToFile($this->storage);
+        }
+
     }
 
     public function get(string $key)
@@ -38,23 +42,16 @@ class YmlKeyValueStorage  implements KeyValueStorageInterface
 
     public function remove(string $key): void
     {
-        if ($this->has($key)) {
-            $content = $this->parseYmlInPHP();
-            foreach ($content as $data_key => $value) {
-                if ($data_key == $key) {
-                    unset($this->storage[$key]);
-                    $this->writeToFile($this->storage,'w+');
-                }
-            }
+        $content = $this->parseYmlInPHP();
+        if (isset($content[$key])) {
+              unset($this->storage[$key]);
+             $this->writeToFile($this->storage);
         }
     }
 
     public function clear(): void
     {
-        $this->storage = [];
-        $fp = fopen($this->pathToFile,'w+');
-        ftruncate($fp, filesize($this->pathToFile));
-        fclose($fp);
+        \file_put_contents($this->pathToFile, '', \LOCK_EX);
     }
 
     private function dumpInYml(array $array)
@@ -62,11 +59,9 @@ class YmlKeyValueStorage  implements KeyValueStorageInterface
        return Yaml::dump($array,1);
     }
 
-    private function writeToFile(array $array, $flag): void
+    private function writeToFile(array $array): void
     {
-        $fp = fopen($this->pathToFile, $flag);
-        fwrite($fp, $this->dumpInYml($array), strlen($this->dumpInYml($array)));
-        fclose($fp);
+        \file_put_contents($this->pathToFile, $array, \LOCK_EX);
     }
 
     private function parseYmlInPHP()
