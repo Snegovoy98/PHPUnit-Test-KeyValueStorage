@@ -24,7 +24,7 @@ class JsonKeyValueStorageTest extends TestCase
 
     public function testGet()
     {
-        $this->storage->clear();
+        $this->clearFile();
         $this->storage->set('name', 'Igor');
         $this->storage->set('date', 'June 28');
         $this->assertEquals('Igar', $this->storage->get('name'));
@@ -35,35 +35,33 @@ class JsonKeyValueStorageTest extends TestCase
 
     public function testHas()
     {
-        $this->storage->clear();
-        $this->storage->set('name', 'Egor');
-        $this->storage->set('surname', 'Gogishvili');
-        $this->assertEquals(true, $this->storage->has('surname'));
-        $this->assertEquals(false, $this->storage->has('age'));
+        $this->clearFile();
+        $this->storage->set('car', 'Audi');
+        $this->storage->set('mode', 'R8');
+        $this->assertEquals(true, $this->storage->has('car'));
+        $this->assertEquals(false, $this->storage->has('model'));
 
     }
 
     public function testRemove()
     {
-        $this->storage->clear();
-        $this->storage->set('name', 'Igor');
-        $this->storage->remove('name');
-        $this->assertEquals(true, $this->storage->get('name'));
+        $this->clearFile();
+        $this->storage->set('date', 'June');
+        $this->storage->remove('date');
+        $this->assertEquals(true, $this->storage->get('date'));
 
     }
 
     public function testClear()
     {
-        $this->storage->set('auto',
-            [
-                'car' => 'BMW',
-                'model' => 'X6',
-                'age' => '2 month',
-                'wheel' => '4',
-                'engine' => '3.0'
-            ]);
-        $this->storage->set('driver', 'Petr');
+        $this->storage->set('products', ['Iphone', 'Mac', 'AppWatch']);
+        $this->storage->set('producer', 'Apple');
         $this->storage->clear();
-        $this->assertEquals(true, $this->storage->has('auto'));
+        $this->assertEquals(true, $this->storage->has('producer'));
+    }
+
+    private function clearFile()
+    {
+        \file_put_contents($this->storage,'');
     }
 }
