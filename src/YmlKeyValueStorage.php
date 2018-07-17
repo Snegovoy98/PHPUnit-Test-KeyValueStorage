@@ -24,12 +24,8 @@ class YmlKeyValueStorage  implements KeyValueStorageInterface
      */
     public function set(string  $key, $value): void
     {
-        $data = $this->parseYmlInPHP();
-        if($data[$key] != $this->storage[$key]){
             $this->storage[$key] = $value;
             $this->writeToFile($this->storage);
-        }
-
     }
 
     /**
