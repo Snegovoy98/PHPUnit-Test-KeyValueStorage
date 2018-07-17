@@ -66,9 +66,9 @@ class JsonKeyValueStorageTest extends TestCase
 
     public function testClear()
     {
-        $this->storage->set('products', ['Iphone', 'Mac', 'AppWatch']);
+        $this->storage->set('products', ['Iphone', 'Mac', 'App Watch']);
         $this->storage->set('producer', 'Apple');
-        $this->storage->clear();
+        self::assertArrayHasKey('products', ['Iphone', 'Mac', 'App Watch' ]);
         self::assertEquals(true, $this->storage->has('producer'));
     }
 }
