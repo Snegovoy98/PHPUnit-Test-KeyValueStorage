@@ -36,8 +36,8 @@ class JsonKeyValueStorageTest extends TestCase
      */
     public function testSet()
     {
-        $this->storage->set('array', ['domain.com', 'web_developer.com.ua', 'php_develop.com']);
-        self::assertEquals(['domain.com', 'web_developer.com.ua', 'php_develop.com'], $this->storage->get('array'));
+        $this->storage->set('number', 10);
+        self::assertEquals(10, $this->storage->get('number'));
     }
 
     public function testGet()
@@ -52,8 +52,8 @@ class JsonKeyValueStorageTest extends TestCase
     {
         $this->storage->set('car', 'Audi');
         $this->storage->set('mode', 'R8');
-        self::assertEquals(true, $this->storage->has('car'));
-        self::assertEquals(false, $this->storage->has('model'));
+        self::assertTrue(true, $this->storage->has('car'));
+        self::assertTrue(true, $this->storage->has('model'));
 
     }
 
@@ -61,7 +61,7 @@ class JsonKeyValueStorageTest extends TestCase
     {
         $this->storage->set('date', 'June');
         $this->storage->remove('date');
-        self::assertEquals(true, $this->storage->get('date'));
+        self::assertEquals(false, $this->storage->get('date'));
     }
 
     public function testClear()
@@ -69,6 +69,6 @@ class JsonKeyValueStorageTest extends TestCase
         $this->storage->set('products', ['Iphone', 'Mac', 'App Watch']);
         $this->storage->set('producer', 'Apple');
         self::assertArrayHasKey('products', ['Iphone', 'Mac', 'App Watch' ]);
-        self::assertEquals(true, $this->storage->has('producer'));
+        self::assertFalse(true, $this->storage->has('producer'));
     }
 }
