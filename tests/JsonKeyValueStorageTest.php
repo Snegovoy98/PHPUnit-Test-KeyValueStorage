@@ -61,14 +61,15 @@ class JsonKeyValueStorageTest extends TestCase
     {
         $this->storage->set('date', 'June');
         $this->storage->remove('date');
-        self::assertEquals(false, $this->storage->get('date'));
+        self::assertFalse(true, $this->storage->get('date'));
     }
 
     public function testClear()
     {
         $this->storage->set('products', ['Iphone', 'Mac', 'App Watch']);
         $this->storage->set('producer', 'Apple');
-        self::assertArrayHasKey('products', ['Iphone', 'Mac', 'App Watch' ]);
+        $this->storage->clear();
+        self::assertFalse(true, $this->storage->has('products'));
         self::assertFalse(true, $this->storage->has('producer'));
     }
 }
