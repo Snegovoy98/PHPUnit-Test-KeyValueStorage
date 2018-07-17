@@ -61,7 +61,7 @@ class YmlKeValueStorageTest extends TestCase
     {
         $this->storage->set('name', 'Igor');
         $this->storage->remove('name');
-        self::assertEquals(true, $this->storage->get('name'));
+        self::assertTrue(true, $this->storage->get('name'));
     }
 
     public function testClear()
