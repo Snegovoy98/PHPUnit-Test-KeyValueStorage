@@ -16,11 +16,8 @@ class JsonKeyValueStorage implements KeyValueStorageInterface
 
     public function set(string $key, $value): void
     {
-        $content = $this->readFromFile();
-        if ($content[$key] != $this->storage[$key]) {
         $this->storage[$key] = $value;
         $this->writeToFile($this->storage);
-        }
     }
 
     public function get(string $key)
