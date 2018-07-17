@@ -25,7 +25,7 @@ class JsonKeyValueStorageTest extends TestCase
     /**
      * {@inheritdoc}
      */
-    public function tearDown()
+    protected function tearDown()
     {
         \file_put_contents(self::Path_To_File, \LOCK_EX);
     }
