@@ -7,59 +7,65 @@ use PHPUnit\Framework\TestCase;
 
 class YmlKeValueStorageTest extends TestCase
 {
-    private $storage ;
+    protected const Path_To_File = __DIR__.'/../data/storage.yaml';
+    /**
+     * @var YmlKeyValueStorage
+     */
+    protected $storage ;
 
-
-    public function __construct()
+    /**
+     * {@inheritdoc}
+     */
+    protected function setUp()
     {
-        $this->storage = new YmlKeyValueStorage(__DIR__ . '../data/storage.yaml');
+        $this->storage = new YmlKeyValueStorage(self::Path_To_File);
 
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    protected function tearDown()
+    {
+        \file_put_contents(self::Path_To_File, \LOCK_EX);
     }
 
     public function testSet()
     {
-        $this->clearFile();
         $this->storage->set('email', 'Ivanov77@gmail.com');
-        $this->assertEquals('Petrov99@gmail.com', $this->storage->get('email'));
+        self::assertEquals('Ivanov77@gmail.com', $this->storage->get('email'));
 
     }
 
-
+    /**
+     * @expectedException \Snegovoy\App\Test
+     * @expectedExceptionMessage You should specify path to file
+     */
     public function testGet()
     {
-        $this->clearFile();
         $this->storage->set('name', 'Igor');
         $this->storage->set('date', 'June 28');
-        $this->assertEquals('Igar', $this->storage->get('name'));
-        $this->assertEquals('August', $this->storage);
-
-
+        self::assertEquals('Igor', $this->storage->get('name'));
+        self::assertEquals('June 28', $this->storage->get('date'));
     }
-
 
     public function testHas()
     {
-        $this->clearFile();
         $this->storage->set('name', 'Egor');
         $this->storage->set('surname', 'Gogishvili');
-        $this->assertEquals(true, $this->storage->has('surname'));
-        $this->assertEquals(false, $this->storage->has('age'));
-
+        self::assertTrue(true, $this->storage->has('surname'));
+        self::assertTrue(true, $this->storage->has('name'));
     }
 
     public function testRemove()
     {
-        $this->clearFile();
         $this->storage->set('name', 'Igor');
         $this->storage->remove('name');
-        $this->assertEquals(true, $this->storage->get('name'));
-
+        self::assertEquals(true, $this->storage->get('name'));
     }
-
 
     public function testClear()
     {
-        $this->clearFile();
         $this->storage->set('auto',
             [
             'car' => 'BMW',
@@ -70,10 +76,7 @@ class YmlKeValueStorageTest extends TestCase
             ]);
         $this->storage->set('driver', 'Petr');
         $this->storage->clear();
-        $this->assertEquals(true, $this->storage->has('auto'));
-    }
-    private function clearFile()
-    {
-        \file_put_contents($this->storage,'');
+        self::assertTrue(false, $this->storage->has('auto'));
+        self::assertTrue(false, $this->storage->get('driver'));
     }
 }
