@@ -22,12 +22,12 @@
     },
     "autoload": {
         "psr-4": {
-            "Snegovoy\\Storage\\": "src/"
+            "Snegovoy\\App\\": "src/"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "Snegovoy\\Storage\\Tests\\": "tests/"
+            "Snegovoy\\App\\Tests\\": "tests/"
         }
     },
     "scripts": {
