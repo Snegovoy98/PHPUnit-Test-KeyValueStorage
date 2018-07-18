@@ -31,7 +31,7 @@ class JsonKeyValueStorage implements KeyValueStorageInterface
              return $value;
          }
 
-         return null;
+        return null;
     }
 
     public function has(string $key): bool
@@ -66,4 +66,5 @@ class JsonKeyValueStorage implements KeyValueStorageInterface
         $data = \json_decode($storage, true);
         return \is_array($data) ? $data : [];
     }
+
 }
