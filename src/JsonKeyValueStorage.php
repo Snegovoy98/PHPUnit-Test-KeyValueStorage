@@ -16,15 +16,21 @@ class JsonKeyValueStorage implements KeyValueStorageInterface
 
     public function set(string $key, $value): void
     {
-        $this->storage[$key] = $value;
+        $this->storage = $this->readFromFile();
+        $this->storage[$key] = \is_object($value) ? \serialize($value) : $value;
         $this->writeToFile($this->storage);
     }
 
     public function get(string $key)
     {
          if ($this->has($key)) {
-             return $this->storage[$key];
+             $value = $this->storage[$key];
+             if (\is_string($value) && $object = @\unserialize($value)) {
+                 return $object;
+             }
+             return $value;
          }
+
          return null;
     }
 
@@ -48,21 +54,17 @@ class JsonKeyValueStorage implements KeyValueStorageInterface
         \file_put_contents($this->pathToFile, '', \LOCK_EX);
     }
 
-    private function encodeData(array $array)
-    {
-        return json_encode($array);
-    }
-
     private function writeToFile(array $array): void
     {
-        \file_put_contents($this->pathToFile, $array, \LOCK_EX);
+        $json = \json_encode($array, \JSON_PRETTY_PRINT);
+        \file_put_contents($this->pathToFile, $json, \LOCK_EX);
     }
 
     private function readFromFile()
     {
-        $content = \file_get_contents($this->pathToFile);
-        return json_decode($content,true);
-
+        $storage = \file_get_contents($this->pathToFile);
+        $data = \json_decode($storage, true);
+        return \is_array($data) ? $data : [];
     }
 
 }
