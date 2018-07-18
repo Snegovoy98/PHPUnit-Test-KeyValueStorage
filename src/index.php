@@ -1,8 +1,8 @@
 <?php
 
-require_once '../vendor/autoload.php';
+require_once __DIR__.'/../vendor/autoload.php';
 
-use App\{InMemoryStorageData,JsonKeyValueStorage,YmlKeyValueStorage};
+use Snegovoy\App\{InMemoryStorageData,JsonKeyValueStorage,YmlKeyValueStorage};
 
 $storage = new InMemoryStorageData();
 
@@ -10,11 +10,11 @@ $storage->set('array', ['style'=>'css','script'=>'js']);
 
 $storage->get('array');
 
-$storageJson = new JsonKeyValueStorage('../data/storage.json');
+$storageJson = new JsonKeyValueStorage(__DIR__.'/../data/storage.json');
 
 $storageJson->clear();
 
-$storageYml = new YmlKeyValueStorage('../data/storage.yaml');
+$storageYml = new YmlKeyValueStorage(__DIR__.'/../data/storage.yaml');
 
 
 $storageYml->clear();
