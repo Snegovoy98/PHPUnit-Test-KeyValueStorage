@@ -2,6 +2,7 @@
 
 namespace Snegovoy\App\Tests;
 
+use Snegovoy\App\JsonKeyValueStorage;
 use PHPUnit\Framework\TestCase;
 
 class JsonKeyValueStorageTest extends TestCase
@@ -18,7 +19,7 @@ class JsonKeyValueStorageTest extends TestCase
      */
     protected function setUp()
     {
-        $this->storage = new JsonKeyValueStorageTest(self::Path_To_File);
+        $this->storage = new JsonKeyValueStorage(self::Path_To_File);
     }
 
     /**
@@ -52,7 +53,7 @@ class JsonKeyValueStorageTest extends TestCase
     public function testHas()
     {
         $this->storage->set('car', 'Audi');
-        $this->storage->set('mode', 'R8');
+        $this->storage->set('model', 'R8');
         self::assertTrue($this->storage->has('car'));
         self::assertTrue($this->storage->has('model'));
     }
