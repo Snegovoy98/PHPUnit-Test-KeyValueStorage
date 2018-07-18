@@ -2,7 +2,6 @@
 
 namespace Snegovoy\App\Tests;
 
-use Snegovoy\App\JsonKeyValueStorage;
 use PHPUnit\Framework\TestCase;
 
 class JsonKeyValueStorageTest extends TestCase
