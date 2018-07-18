@@ -10,7 +10,7 @@ class JsonKeyValueStorageTest extends TestCase
     protected const Path_To_File = __DIR__.'/../data/storage.json';
 
     /**
-     * @var JsonKeyValueStorage
+     * @var JsonKeyValueStorageTest
      */
     protected  $storage ;
 
@@ -19,7 +19,7 @@ class JsonKeyValueStorageTest extends TestCase
      */
     protected function setUp()
     {
-        $this->storage = new JsonKeyValueStorage(self::Path_To_File);
+        $this->storage = new JsonKeyValueStorageTest(self::Path_To_File);
     }
 
     /**
@@ -67,7 +67,7 @@ class JsonKeyValueStorageTest extends TestCase
 
     public function testClear()
     {
-        $this->storage->set('product',  'Mac');
+        $this->storage->set('product', 'Mac');
         $this->storage->set('producer', 'Apple');
         $this->storage->clear();
         self::assertFalse($this->storage->has('product'));
