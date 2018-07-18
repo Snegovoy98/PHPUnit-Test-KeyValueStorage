@@ -31,21 +31,23 @@ class JsonKeyValueStorageTest extends TestCase
     }
 
     /**
-     * @expectedException \Snegovoy\App\Test
      * @expectedExceptionMessage You should specify path to file
      */
     public function testSet()
     {
         $this->storage->set('number', 10);
         self::assertEquals(10, $this->storage->get('number'));
+        $this->storage->set('message', 'You have a message');
+        self::assertEquals('You have a message', $this->storage->get('message'));
     }
 
     public function testGet()
     {
-        $this->storage->set('name', 'Igor');
+        $this->storage->set('name', 'Ivan');
+        self::assertEquals('Ivan', $this->storage->get('name'));
         $this->storage->set('date', 'June 28');
-        self::assertEquals('Igor', $this->storage->get('name'));
-        self::assertEquals('August', $this->storage->get('data'));
+        self::assertEquals('June 28', $this->storage->get('date'));
+        self::assertNull($this->storage->get('unknown'));
     }
 
     public function testHas()
@@ -54,22 +56,21 @@ class JsonKeyValueStorageTest extends TestCase
         $this->storage->set('mode', 'R8');
         self::assertTrue(true, $this->storage->has('car'));
         self::assertTrue(true, $this->storage->has('model'));
-
     }
 
     public function testRemove()
     {
         $this->storage->set('date', 'June');
         $this->storage->remove('date');
-        self::assertFalse(true, $this->storage->get('date'));
+        self::assertFalse($this->storage->has('date'));
     }
 
     public function testClear()
     {
-        $this->storage->set('products', ['Iphone', 'Mac', 'App Watch']);
+        $this->storage->set('product',  'Mac');
         $this->storage->set('producer', 'Apple');
         $this->storage->clear();
-        self::assertFalse(true, $this->storage->has('products'));
-        self::assertFalse(true, $this->storage->has('producer'));
+        self::assertFalse($this->storage->has('product'));
+        self::assertFalse($this->storage->has('producer'));
     }
 }
