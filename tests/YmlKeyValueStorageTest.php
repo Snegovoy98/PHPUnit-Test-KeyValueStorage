@@ -5,11 +5,11 @@ namespace Snegovoy\App\Tests;
 use Snegovoy\App\YmlKeyValueStorage;
 use PHPUnit\Framework\TestCase;
 
-class YmlKeValueStorageTest extends TestCase
+class YmlKeyValueStorageTest extends TestCase
 {
     protected const Path_To_File = __DIR__.'/../data/storage.yaml';
     /**
-     * @var YmlKeyValueStorage
+     * @var YmlKeyValueStorageTest
      */
     protected $storage ;
 
@@ -18,8 +18,7 @@ class YmlKeValueStorageTest extends TestCase
      */
     protected function setUp()
     {
-        $this->storage = new YmlKeyValueStorage(self::Path_To_File);
-
+        $this->storage = new YmlKeyValueStorageTest(self::Path_To_File);
     }
 
     /**
@@ -34,18 +33,16 @@ class YmlKeValueStorageTest extends TestCase
     {
         $this->storage->set('email', 'Ivanov77@gmail.com');
         self::assertEquals('Ivanov77@gmail.com', $this->storage->get('email'));
-
     }
 
     /**
-     * @expectedException \Snegovoy\App\Test
      * @expectedExceptionMessage You should specify path to file
      */
     public function testGet()
     {
         $this->storage->set('name', 'Igor');
-        $this->storage->set('date', 'June 28');
         self::assertEquals('Igor', $this->storage->get('name'));
+        $this->storage->set('date', 'June 28');
         self::assertEquals('June 28', $this->storage->get('date'));
     }
 
@@ -61,7 +58,7 @@ class YmlKeValueStorageTest extends TestCase
     {
         $this->storage->set('name', 'Igor');
         $this->storage->remove('name');
-        self::assertFalse(true, $this->storage->get('name'));
+        self::assertFalse( $this->storage->has('name'));
     }
 
     public function testClear()
@@ -76,7 +73,7 @@ class YmlKeValueStorageTest extends TestCase
             ]);
         $this->storage->set('driver', 'Petr');
         $this->storage->clear();
-        self::assertTrue(false, $this->storage->has('auto'));
-        self::assertTrue(false, $this->storage->get('driver'));
+        self::assertFalse( $this->storage->has('auto'));
+        self::assertFalse( $this->storage->has('driver'));
     }
 }
