@@ -2,7 +2,7 @@
 
 namespace Snegovoy\App;
 
-use  Snegovoy\App\KeyValueStorageInterface;
+use Snegovoy\App\KeyValueStorageInterface;
 use Symfony\Component\Yaml\Yaml;
 
 class YmlKeyValueStorage  implements KeyValueStorageInterface
