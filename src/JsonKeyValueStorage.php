@@ -66,5 +66,4 @@ class JsonKeyValueStorage implements KeyValueStorageInterface
         $data = \json_decode($storage, true);
         return \is_array($data) ? $data : [];
     }
-
 }
