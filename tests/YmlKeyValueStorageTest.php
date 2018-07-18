@@ -18,7 +18,7 @@ class YmlKeyValueStorageTest extends TestCase
      */
     protected function setUp()
     {
-        $this->storage = new YmlKeyValueStorageTest(self::Path_To_File);
+        $this->storage = new YmlKeyValueStorage(self::Path_To_File);
     }
 
     /**
@@ -49,9 +49,10 @@ class YmlKeyValueStorageTest extends TestCase
     public function testHas()
     {
         $this->storage->set('name', 'Egor');
+        self::assertTrue($this->storage->has('name'));
         $this->storage->set('surname', 'Gogishvili');
-        self::assertTrue(true, $this->storage->has('surname'));
-        self::assertTrue(true, $this->storage->has('name'));
+        self::assertTrue($this->storage->has('surname'));
+
     }
 
     public function testRemove()
