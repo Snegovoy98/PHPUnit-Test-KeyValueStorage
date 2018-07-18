@@ -54,8 +54,8 @@ class JsonKeyValueStorageTest extends TestCase
     {
         $this->storage->set('car', 'Audi');
         $this->storage->set('mode', 'R8');
-        self::assertTrue(true, $this->storage->has('car'));
-        self::assertTrue(true, $this->storage->has('model'));
+        self::assertTrue($this->storage->has('car'));
+        self::assertTrue($this->storage->has('model'));
     }
 
     public function testRemove()
