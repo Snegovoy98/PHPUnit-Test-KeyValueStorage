@@ -24,6 +24,8 @@ class YmlKeyValueStorage  implements KeyValueStorageInterface
      */
     public function set(string  $key, $value): void
     {
+            $this->storage = $this->parseYmlInPHP();
+            $this->storage[$key] = \is_object($value) ? \serialize($value) : $value;
             $this->storage[$key] = $value;
             $this->writeToFile($this->storage);
     }
@@ -36,8 +38,13 @@ class YmlKeyValueStorage  implements KeyValueStorageInterface
      */
     public function get(string $key)
     {
+        $this->storage=$this->parseYmlInPHP();
         if ($this->has($key)) {
-            return $this->storage[$key];
+            $value = $this->storage[$key];
+            if (\is_string($value) && $object = @\unserialize($value)) {
+                return $object;
+            }
+            return $value;
         }
         return null;
     }
@@ -77,18 +84,15 @@ class YmlKeyValueStorage  implements KeyValueStorageInterface
         \file_put_contents($this->pathToFile, '', \LOCK_EX);
     }
 
-    private function dumpInYml(array $array)
+    private function writeToFile(array $array) :void
     {
-       return Yaml::dump($array,1);
+        $yaml = Yaml::dump($array);
+        \file_put_contents($this->pathToFile, $yaml, \LOCK_EX);
     }
 
-    private function writeToFile(array $array): void
+    private function parseYmlInPHP(): array
     {
-        \file_put_contents($this->pathToFile, $array, \LOCK_EX);
-    }
-
-    private function parseYmlInPHP()
-    {
-      return Yaml::parseFile($this->pathToFile);
+        $data = Yaml::parseFile($this->pathToFile);
+        return \is_array($data) ? $data : [];
     }
 }
